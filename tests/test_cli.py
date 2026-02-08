@@ -2,8 +2,6 @@ from unittest.mock import patch
 
 from stock_evaluator.cli import run_cli
 
-NO_AUTH = {"stock_evaluator.cli.is_auth_configured": lambda: False}
-
 
 class TestRunCliNoAuth:
     @patch("stock_evaluator.cli.is_auth_configured", return_value=False)
