@@ -1,0 +1,8 @@
+[project]
+name = "stock-evaluator"
+version = "0.1.0"
+description = "A command-line stock evaluation tool that calculates PE ratios and investment recommendations"
+requires-python = ">=3.10"
+
+[project.scripts]
+stock-evaluator = "stock_evaluator.cli:run_cli"
