@@ -40,6 +40,23 @@ Each stock is scored 0-3 based on these thresholds (configurable via `StockEvalu
 
 **Recommendations:** 3 = BUY, 2 = HOLD, 0-1 = AVOID
 
+## Authentication (Optional)
+
+Authentication is **off by default** — existing users are unaffected. To enable it, set two environment variables:
+
+```bash
+# Generate a password hash
+python -c "import hashlib; print(hashlib.sha256(b'your-password').hexdigest())"
+
+# Export credentials
+export STOCK_EVAL_USER="admin"
+export STOCK_EVAL_PASS_HASH="<sha256-hex-from-above>"
+```
+
+When configured, the CLI will prompt for username and password before proceeding. Users get 3 attempts before access is denied.
+
+When the environment variables are **not set**, the tool runs without any authentication prompt — fully backward-compatible.
+
 ## Project Structure
 
 ```
@@ -50,10 +67,12 @@ stock-evaluator/
 │   ├── __init__.py
 │   ├── models.py            # Stock and EvaluationResult dataclasses
 │   ├── evaluator.py         # Scoring and recommendation logic
+│   ├── auth.py              # Optional basic authentication
 │   └── cli.py               # Interactive CLI interface
 └── tests/
     ├── test_models.py
     ├── test_evaluator.py
+    ├── test_auth.py
     └── test_cli.py
 ```
 

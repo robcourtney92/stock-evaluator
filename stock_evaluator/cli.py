@@ -1,5 +1,8 @@
+from stock_evaluator.auth import authenticate, is_auth_configured
 from stock_evaluator.evaluator import StockEvaluator
 from stock_evaluator.models import Stock
+
+MAX_AUTH_ATTEMPTS = 3
 
 
 def _prompt_float(label: str) -> float:
@@ -12,6 +15,17 @@ def _prompt_float(label: str) -> float:
 
 def run_cli():
     print("Simple Stock Evaluator")
+
+    if is_auth_configured():
+        for attempt in range(MAX_AUTH_ATTEMPTS):
+            if authenticate():
+                break
+            remaining = MAX_AUTH_ATTEMPTS - attempt - 1
+            if remaining > 0:
+                print(f"Authentication failed. {remaining} attempt(s) remaining.")
+            else:
+                print("Authentication failed. Access denied.")
+                return
 
     symbol = input("Stock symbol: ")
     price = _prompt_float("Stock price: ")
